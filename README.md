@@ -154,7 +154,28 @@ ionic serve --port 8105
 
 ## 📱 Screenshots
 
-*Próximamente*
+<p align="center">
+  <img src="https://image2url.com/images/1765374481413-40eebbe0-451d-4fef-a03c-adb843d850b2.png" width="30%">
+  <img src="https://image2url.com/images/1765374482435-b8d54861-12fb-40c6-9dc4-8f40e8b58006.png" width="30%">
+</p>
+
+<p align="center">
+  <img src="https://image2url.com/images/1765374483700-6f5adab0-7763-445f-9aca-8c4d09bbd2bd.png" width="30%">
+  <img src="https://image2url.com/images/1765374487417-bb3be49e-42ab-43c4-8012-be2ee22356b8.png" width="30%">
+</p>
+
+<p align="center">
+  <img src="https://image2url.com/images/1765374486206-1d0dfbe3-5fe4-40f3-ba59-2a081f34233b.png" width="30%">
+  <img src="https://image2url.com/images/1765374485040-67d99b7f-856f-457f-80de-7ee2ed86ef35.png" width="30%">  
+</p>
+
+<p align="center">
+  <img src="https://image2url.com/images/1765374488610-e3da4434-c407-4317-b5d1-278628a2c5c1.png" width="30%">
+  <img src="imageFolder/screenshot.png" width="40%">
+</p>
+
+
+
 
 ## 📄 Licencia
 
