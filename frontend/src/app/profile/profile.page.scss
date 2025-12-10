@@ -1,0 +1,226 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.profile-content {
+  padding: 20px;
+  padding-bottom: 100px;
+}
+
+.profile-header {
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
+  border-radius: 20px;
+  color: white;
+  margin-bottom: 20px;
+
+  .avatar-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 12px;
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ion-icon {
+        font-size: 60px;
+      }
+    }
+
+    .level-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--ion-color-warning);
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid white;
+    }
+  }
+
+  h1 {
+    margin: 0 0 4px;
+    font-size: 26px;
+    font-weight: bold;
+  }
+
+  .title {
+    margin: 0 0 16px;
+    opacity: 0.9;
+    font-size: 16px;
+  }
+
+  .xp-section {
+    max-width: 300px;
+    margin: 0 auto;
+
+    .xp-bar {
+      height: 12px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      overflow: hidden;
+
+      .xp-fill {
+        height: 100%;
+        background: var(--ion-color-warning);
+        border-radius: 6px;
+        transition: width 0.3s ease;
+      }
+    }
+
+    .xp-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 12px;
+      opacity: 0.9;
+    }
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+
+  .stat-card {
+    background: var(--ion-color-light);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+
+    ion-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--ion-color-dark);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.chart-section {
+  margin-bottom: 24px;
+
+  h3 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 120px;
+    background: var(--ion-color-light);
+    border-radius: 12px;
+    padding: 12px 8px;
+
+    .chart-bar {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      position: relative;
+
+      .bar {
+        width: 12px;
+        background: var(--ion-color-primary);
+        border-radius: 4px 4px 0 0;
+        min-height: 4px;
+        margin-top: auto;
+        transition: height 0.3s ease;
+      }
+
+      .bar-label {
+        font-size: 10px;
+        color: var(--ion-color-medium);
+        margin-top: 4px;
+      }
+
+      .bar-value {
+        position: absolute;
+        top: 0;
+        font-size: 9px;
+        color: var(--ion-color-primary);
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.account-section {
+  margin-bottom: 24px;
+
+  h3 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  ion-list {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  ion-item {
+    --padding-start: 12px;
+
+    p {
+      font-size: 12px;
+      color: var(--ion-color-medium);
+    }
+
+    h3 {
+      font-size: 14px;
+      margin: 0;
+    }
+  }
+}
+
+.logout-btn {
+  margin-top: 20px;
+  --border-radius: 10px;
+}
+
+ion-footer ion-segment {
+  --background: transparent;
+
+  ion-segment-button {
+    --indicator-height: 0;
+    flex-direction: column;
+    font-size: 10px;
+
+    ion-icon {
+      font-size: 20px;
+      margin-bottom: 2px;
+    }
+  }
+}

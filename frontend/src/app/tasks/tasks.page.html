@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Tareas</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="selectedFilter" (ionChange)="filterTasks($any($event.detail.value))">
+      <ion-segment-button value="all">
+        <ion-label>Todas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button [value]="FrequencyType.DAILY">
+        <ion-label>Diarias</ion-label>
+      </ion-segment-button>
+      <ion-segment-button [value]="FrequencyType.WEEKLY">
+        <ion-label>Semanales</ion-label>
+      </ion-segment-button>
+      <ion-segment-button [value]="FrequencyType.ONCE">
+        <ion-label>Objetivos</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="loadData(); $event.target.complete()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="loading-container" *ngIf="loading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <ion-list *ngIf="!loading" class="tasks-list">
+    <ion-item-sliding *ngFor="let task of filteredTasks">
+      <ion-item>
+        <ion-icon [name]="getCategoryIcon(task)" [style.color]="getCategoryColor(task)" slot="start" class="category-icon"></ion-icon>
+        <ion-label>
+          <h2>{{ task.title }}</h2>
+          <p>
+            <ion-badge [color]="getStatusColor(task.status)" class="status-badge">
+              {{ task.status === 'pending' ? 'Pendiente' : task.status === 'in_progress' ? 'En progreso' : 'Completada' }}
+            </ion-badge>
+            <span class="category-label">{{ getCategoryName(task) }}</span>
+          </p>
+          <p class="task-meta">
+            <span class="frequency">{{ getFrequencyLabel(task.frequency) }}</span>
+            <span class="xp">+{{ task.xp_reward }} XP</span>
+            <span class="streak" *ngIf="task.current_streak > 0">
+              <ion-icon name="flame" color="danger"></ion-icon> {{ task.current_streak }}
+            </span>
+          </p>
+        </ion-label>
+        <ion-note slot="end" class="best-streak" *ngIf="task.best_streak > 0">
+          Mejor: {{ task.best_streak }}
+        </ion-note>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteTask(task)">
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <div class="empty-state" *ngIf="!loading && filteredTasks.length === 0">
+    <ion-icon name="clipboard-outline"></ion-icon>
+    <h4>No hay tareas</h4>
+    <p>Crea una nueva tarea para comenzar</p>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addTask()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-segment value="tasks">
+      <ion-segment-button value="dashboard" (click)="goBack()">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="tasks">
+        <ion-icon name="list"></ion-icon>
+        <ion-label>Tareas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="profile" (click)="goToProfile()">
+        <ion-icon name="person"></ion-icon>
+        <ion-label>Perfil</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-footer>

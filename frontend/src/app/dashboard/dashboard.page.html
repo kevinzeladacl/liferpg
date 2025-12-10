@@ -1,0 +1,183 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>LifeRPG</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToProfile()">
+        <ion-icon name="person-circle" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Character Card -->
+  <div class="character-card" *ngIf="user && stats">
+    <div class="avatar-section">
+      <div class="avatar">
+        <ion-icon name="person"></ion-icon>
+      </div>
+      <div class="level-badge">{{ stats.level }}</div>
+    </div>
+
+    <div class="info-section">
+      <h2>{{ user.username }}</h2>
+      <p class="title">{{ stats.title }}</p>
+
+      <div class="xp-bar-container">
+        <div class="xp-bar">
+          <div class="xp-fill" [style.width.%]="xpProgress * 100"></div>
+        </div>
+        <span class="xp-text">{{ stats.current_xp }} / {{ stats.current_xp + stats.xp_to_next_level }} XP</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="stats-row" *ngIf="stats">
+    <div class="stat-item">
+      <ion-icon name="flame" color="danger"></ion-icon>
+      <span class="stat-value">{{ stats.current_streak }}</span>
+      <span class="stat-label">Racha</span>
+    </div>
+    <div class="stat-item">
+      <ion-icon name="checkmark-circle" color="success"></ion-icon>
+      <span class="stat-value">{{ stats.tasks_completed }}</span>
+      <span class="stat-label">Completadas</span>
+    </div>
+    <div class="stat-item">
+      <ion-icon name="star" color="warning"></ion-icon>
+      <span class="stat-value">{{ stats.total_xp }}</span>
+      <span class="stat-label">XP Total</span>
+    </div>
+  </div>
+
+  <!-- Today's Tasks -->
+  <div class="section-header">
+    <h3>Tareas de Hoy</h3>
+    <ion-button fill="clear" size="small" (click)="goToTasks()">
+      Ver todas
+    </ion-button>
+  </div>
+
+  <ion-refresher slot="fixed" (ionRefresh)="loadData(); $event.target.complete()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="loading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <!-- Task Lists -->
+  <div class="tasks-container" *ngIf="!loading">
+    <!-- In Progress -->
+    <div class="task-section" *ngIf="getInProgressTasks().length > 0">
+      <div class="section-title">
+        <ion-icon name="play-circle" color="primary"></ion-icon>
+        En Progreso
+      </div>
+      <ion-card *ngFor="let task of getInProgressTasks()" class="task-card in-progress">
+        <ion-card-content>
+          <div class="task-info">
+            <ion-icon [name]="getCategoryIcon(task)" [style.color]="getCategoryColor(task)"></ion-icon>
+            <div class="task-details">
+              <h4>{{ task.title }}</h4>
+              <p>
+                <ion-badge color="primary">{{ getFrequencyLabel(task.frequency) }}</ion-badge>
+                <span class="xp-reward">+{{ task.xp_reward }} XP</span>
+              </p>
+            </div>
+          </div>
+          <ion-button fill="solid" color="success" size="small" (click)="completeTask(task)">
+            <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Pending -->
+    <div class="task-section" *ngIf="getPendingTasks().length > 0">
+      <div class="section-title">
+        <ion-icon name="time" color="warning"></ion-icon>
+        Pendientes
+      </div>
+      <ion-card *ngFor="let task of getPendingTasks()" class="task-card pending">
+        <ion-card-content>
+          <div class="task-info">
+            <ion-icon [name]="getCategoryIcon(task)" [style.color]="getCategoryColor(task)"></ion-icon>
+            <div class="task-details">
+              <h4>{{ task.title }}</h4>
+              <p>
+                <ion-badge color="medium">{{ getFrequencyLabel(task.frequency) }}</ion-badge>
+                <span class="xp-reward">+{{ task.xp_reward }} XP</span>
+                <span class="streak" *ngIf="task.current_streak > 0">
+                  <ion-icon name="flame"></ion-icon> {{ task.current_streak }}
+                </span>
+              </p>
+            </div>
+          </div>
+          <ion-button fill="outline" color="primary" size="small" (click)="startTask(task)">
+            <ion-icon name="play" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Completed -->
+    <div class="task-section" *ngIf="getCompletedTasks().length > 0">
+      <div class="section-title">
+        <ion-icon name="checkmark-circle" color="success"></ion-icon>
+        Completadas
+      </div>
+      <ion-card *ngFor="let task of getCompletedTasks()" class="task-card completed">
+        <ion-card-content>
+          <div class="task-info">
+            <ion-icon [name]="getCategoryIcon(task)" [style.color]="getCategoryColor(task)"></ion-icon>
+            <div class="task-details">
+              <h4>{{ task.title }}</h4>
+              <p>
+                <ion-badge color="success">Completada</ion-badge>
+                <span class="xp-reward">+{{ task.xp_reward }} XP</span>
+              </p>
+            </div>
+          </div>
+          <ion-icon name="checkmark-done" color="success" class="done-icon"></ion-icon>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="todayTasks.length === 0">
+      <ion-icon name="add-circle-outline"></ion-icon>
+      <h4>No tienes tareas</h4>
+      <p>Crea tu primera tarea para comenzar tu aventura</p>
+    </div>
+  </div>
+
+  <!-- FAB for adding tasks -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addTask()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<!-- Tab Bar -->
+<ion-footer>
+  <ion-toolbar>
+    <ion-segment value="dashboard">
+      <ion-segment-button value="dashboard">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="tasks" (click)="goToTasks()">
+        <ion-icon name="list"></ion-icon>
+        <ion-label>Tareas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="profile" (click)="goToProfile()">
+        <ion-icon name="person"></ion-icon>
+        <ion-label>Perfil</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-footer>

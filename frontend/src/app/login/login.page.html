@@ -1,0 +1,30 @@
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <div class="logo-section">
+      <ion-icon name="game-controller" class="logo-icon"></ion-icon>
+      <h1>LifeRPG</h1>
+      <p>Gamifica tu vida</p>
+    </div>
+
+    <div class="form-section">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" [(ngModel)]="email" autocomplete="email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type="password" [(ngModel)]="password"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" (click)="login()" class="login-btn">
+        <ion-icon name="log-in" slot="start"></ion-icon>
+        Iniciar Sesión
+      </ion-button>
+
+      <ion-button expand="block" fill="clear" (click)="goToRegister()">
+        ¿No tienes cuenta? Regístrate
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
